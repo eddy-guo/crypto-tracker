@@ -1,0 +1,30 @@
+<head>
+    <link rel= "stylesheet" type= "text/css" href= "../styles/coin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
+</head>
+
+<div>{{ render_partial("./coinheader.html") }}</div>
+<p><b>Name:</b> {{ dict_coin.name }}</p>
+<img src={{ dict_coin.image }} alt={{ dict_coin.name }}/>
+<p><b>Symbol:</b> {{ dict_coin.symbol }}</p>
+<p><b>Price:</b> {{ dict_coin.priceusd  }} USD</p>
+<p><b>Market Cap Rank:</b> {{ dict_coin.market_cap_rank }}</p>
+<p><b>Launch Date:</b> {{ dict_coin.launch_date }}</p>
+<p><b>Description:</b></p>
+<p>{{ dict_coin.description|safe }}</p>
+<p><b>Homepage:</b> 
+    <a href={{ dict_coin.homepage_link }} target="_blank">{{ dict_coin.homepage_link }}</a>
+</p>
+<p>API info is currently cached, please refresh in ~30s to update.</p>
+
+<div>
+<form action="/coin" method="POST">
+    <input class="button" type ="submit" value="Cryptocurrencies" />
+</form>
+
+<form action="/" method="POST">
+    <input class="button" type ="submit" name="submit" value="Homepage" />
+</form>
+</div>

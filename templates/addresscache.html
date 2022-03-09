@@ -1,0 +1,21 @@
+<head>
+    <link rel= "stylesheet" type= "text/css" href= "../styles/coin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
+</head>
+
+<div>
+{{ render_partial("./addressheader.html") }}
+<p><b>Address:</b> {{ dict_address.address }}</p>
+<p><b>Value:</b> {{ dict_address.price }} ETH</p>
+<p>API info is currently cached, please refresh in ~30s to update.</p>
+
+<form action="/address" method="POST">
+    <input class="button" type ="submit" value="Back to Wallet Addresses" />
+</form>
+
+<form action="/" method="POST">
+    <input class="button" type ="submit" value="Homepage" />
+</form>
+</div>
