@@ -13,17 +13,6 @@ r = redis.Redis(
 
 jinja_partials.register_extensions(app)
 
-# helper: create a helper that works for all routes? (coin, exchange, etc)
-#def check_coin_empty(data):
-    #if "coin" not in data:
-        #return redirect("/")
-    #coin_name = data["coin"]
-    #if len(coin_name) == 0:
-        #return redirect("/")
-    #return coin_name
-
-
-
 @app.route('/', methods=['GET','POST'])
 def home():
     return render_template('home.html')
@@ -91,7 +80,7 @@ def exchange_info():
     if len(requested_exchange) == 0:
         print("no exchange inputted")
         return redirect("/exchange")
-    # cached_exchange = r.get(requested_exchange)
+    # cached_exchange = r.get(requested_exchange); no cache, updating exchange information is unnecessary
 
     print("NOT CACHED")
     data = requests.get(f'https://api.coingecko.com/api/v3/exchanges/{requested_exchange}')
@@ -105,7 +94,7 @@ def exchange_info():
             "country": exchange_json["country"],
             "description": exchange_json["description"],
             "url": exchange_json["url"],
-            # check if exchange has status update which has a bigger picture LOL
+            # check if exchange has status update, bigger picture available
             "image": exchange_json["status_updates"][0]["project"]["image"]["large"] if exchange_json["status_updates"] else exchange_json["image"]
         }
         return render_template('exchangeinfo.html', exchange_info=exchange_info)
@@ -157,50 +146,6 @@ def orderbook():
     }
     response = requests.get('https://deep-index.moralis.io/api/v2/0xF73dbcE07870aE4Eca6c64Fe287D42177875d529/nft?chain=eth&format=decimal', headers=headers)
     return response.content
-# https://formatter.xyz/curl-to-python-converter
-# https://admin.moralis.io/web3Api
-
-    # Old orderbook, original changed
-    #resp = requests.get("https://api.cryptowat.ch/markets/kraken/btcusd/orderbook")
-    # did NOT r.set, not cached, perma-refresh might break something
-        # too slow to reload so maybe cache not needed
-    #orderbook = resp.json()['result']
-    #return orderbook
 
 if __name__ == '__main__':
       app.run(debug=True)
-
-# urgent:
-    # nft floor price by trading volume
-        # search function or display (or both..)
-        # EXTEND THIS TO WALLET ADDRESS FUNCTION?
-            # etherscan api for more interesting things, if not nft api
-            # pattern recognition relative to the address (btc or eth)
-                # if eth address, go to etherscan, if btc address, go to bitcoinscan
-    # notification when incorrect/empty string is submitted
-        # issue: do not make new route; how to do?
-    # search how to make all inputs safe (malicious intents through form send)
-        # |safe as well in api, same thing as in form?
-    # run thru process vscode -> github (ASK ANISH, DO OTHER STUFF FIRST)
-        # git, gitignore for etherscan api key
-    # mention to use coin="", exchange="", address="", for GET request in homepage?
-
-# Next up
-# 0. Have coin and exchange display top 10
-    # coin: ranked by market cap, display on "/"
-    # exchange: ranked by trust score, display on "/exchange"
-        # If trust score is same, rank again by 24 hour volume
-    # include information on trust score on "/exchange" (https://blog.coingecko.com/trust-score-explained/)
-# 1. Homepage login, setting up profile, save coins and exchange, page to see own coins
-    # anish lolz
-# 2. Now that HTML template linking is working, CSS styling......
-    # last priority, don't waste time.
-# 3. order book json info imported
-        # check validity of api
-        # how to actually make orderbook bar thing (https://ftx.com/trade/BTC-PERP)
-        # hard man
-# 4. helper function thing (line 13)
-
-# general:
-    # why when main.py changes names, Error: Could not import 'main'?
-    # put helper back in main function to fix redis error; replicate, why?
