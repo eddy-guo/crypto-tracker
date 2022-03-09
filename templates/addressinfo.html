@@ -1,0 +1,25 @@
+<head>
+    <link rel= "stylesheet" type= "text/css" href= "../styles/coin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
+</head>
+
+<header><b>Blockchain Wallet Tracker</b></header>
+
+<div>
+<form action="/address/info" method = "POST" autocomplete="off">
+    <input type = "text" name = "address" size="50" /><input class="button" type = "submit" value = "Search" />
+</form>
+
+<p><b>Address:</b> {{ address_info.address }}</p>
+<p><b>Value:</b> {{ address_info.price }} ETH</p>
+
+<form action="/address" method="POST">
+    <input class="button" type ="submit" value="Back to Wallet Addresses" />
+</form>
+
+<form action="/" method="POST">
+    <input class="button" type ="submit" value="Homepage" />
+</form>
+</div>

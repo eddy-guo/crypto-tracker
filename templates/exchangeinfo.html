@@ -1,0 +1,26 @@
+<head>
+    <link rel= "stylesheet" type= "text/css" href= "../styles/coin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
+</head>
+
+<div>
+{{ render_partial("./exchangeheader.html") }}
+<p><b>Name:</b> {{ exchange_info.name }}</p>
+<img src={{ exchange_info.image }} alt={{ exchange_info.name }}/>
+<p><b>Year Established:</b> {{ exchange_info.year_established }}</p>
+<p><b>Country:</b> {{ exchange_info.country }}</p>
+<p><b>Description:</b> {{ exchange_info.description }}</p>
+<p><b>Homepage:</b> 
+    <a href={{ exchange_info.url }} target="_blank">{{ exchange_info.url }}</a>
+</p>
+
+<form action="/exchange" method="POST">
+    <input class="button" type ="submit" value="Back to Exchanges" />
+</form>
+
+<form action="/" method="POST">
+    <input class="button" type ="submit" value="Homepage" />
+</form>
+</div>

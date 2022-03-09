@@ -1,0 +1,29 @@
+<head>
+    <link rel= "stylesheet" type= "text/css" href= "../styles/coin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
+</head>
+
+<div>{{ render_partial("./coinheader.html") }}</div>
+<p><b>Name:</b> {{ coin_info.name }}</p>
+<img src={{ coin_info.image }} alt={{ coin_info.name }}/>
+<p><b>Symbol:</b> {{ coin_info.symbol }}</p>
+<p><b>Price:</b> {{ coin_info.priceusd  }} USD</p>
+<p><b>Market Cap Rank:</b> {{ coin_info.market_cap_rank }}</p>
+<p><b>Launch Date:</b> {{ coin_info.launch_date }}</p>
+<p><b>Description:</b></p>
+<p>{{ coin_info.description|safe }}</p>
+<p><b>Homepage:</b> 
+    <a href={{ coin_info.homepage_link }} target="_blank">{{ coin_info.homepage_link }}</a>
+</p>
+
+<div>
+<form action="/coin" method="POST">
+    <input class="button" type ="submit" value="Back to Cryptocurrencies" />
+</form>
+
+<form action="/" method="POST">
+    <input class="button" type ="submit" value="Homepage" />
+</form>
+</div>
