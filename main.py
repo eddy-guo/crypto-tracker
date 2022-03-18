@@ -3,6 +3,7 @@ import requests, redis, ast, jinja_partials, os
 
 etherscan_key = os.getenv('ETHERSCAN_KEY')
 moralis_key = os.getenv('MORALIS_KEY')
+alchemy_key = os.getenv('ALCHEMY_KEY')
 
 app = Flask(__name__, static_folder="styles")
 
@@ -126,24 +127,26 @@ def address_info():
         return render_template('addresscache.html', dict_address=dict_address)
     else:
         print("NOT CACHED")
-        headers = {
-        'accept': 'application/json',
-        'X-API-Key': moralis_key,
-        }
         data = requests.get(f'https://api.etherscan.io/api?module=account&action=balance&address={requested_address}&tag=latest&apikey={etherscan_key}')
-        data2 = requests.get(f'https://deep-index.moralis.io/api/v2/{requested_address}/nft?chain=eth&format=decimal', headers=headers)   
-        if str(data2) == "<Response [404]>":
+        data2 = requests.get(f'https://eth-mainnet.alchemyapi.io/v2/{alchemy_key}/getNFTs/?owner={requested_address}')   
+        if str(data2) == "<Response [500]>":
             return redirect("/address")
         address_json = data.json()
         nft_json = data2.json()
         if "0" in address_json["status"]:
             return redirect("/address")
         else:
+            nft_info = ""
+            for i in range(len(nft_json["ownedNfts"])):
+                nft_info += (
+                    '<br>Address: ' + nft_json["ownedNfts"][i]['contract']['address'] + 
+                    '<br>Title: ' + nft_json["ownedNfts"][i]['title'] + 
+                    '<br>Description: ' + nft_json["ownedNfts"][i]['description'] + '<br>')
             address_info = {
                 "address": requested_address,
                 "price": int(address_json["result"]) / 10**18,
-                "count": nft_json["total"],
-                "list": nft_json["result"]
+                "count": nft_json["totalCount"],
+                "nft": nft_info
             }
         r.set(requested_address, str(address_info), ex=30)
         return render_template("addressinfo.html",address_info=address_info)
