@@ -1,17 +1,19 @@
 <head>
-    <link rel= "stylesheet" type= "text/css" href= "../styles/coin.css">
+    <link rel= "stylesheet" type= "text/css" href= "../styles/address.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
 </head>
 
-<div>
 {{ render_partial("./addressheader.html") }}
+
+<div>
 <p><b>Address:</b> {{ dict_address.address }}</p>
 <p><b>Value:</b> {{ dict_address.price }} ETH</p>
 <p><b>Number of NFT's owned:</b> {{ dict_address.count }}</p>
-<p><b>List of all NFT's:</b> {{ dict_address.list }}</p>
+<p><b>List of all NFT's:</b> {{ dict_address.nft }}</p>
 <p>API info is currently cached, please refresh in ~30s to update.</p>
+</div>
 
 <form action="/address" method="POST">
     <input class="button" type ="submit" value="Back to Wallet Addresses" />
@@ -20,4 +22,3 @@
 <form action="/" method="POST">
     <input class="button" type ="submit" value="Homepage" />
 </form>
-</div>
