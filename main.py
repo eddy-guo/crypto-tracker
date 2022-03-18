@@ -126,26 +126,27 @@ def address_info():
         return render_template('addresscache.html', dict_address=dict_address)
     else:
         print("NOT CACHED")
+        headers = {
+        'accept': 'application/json',
+        'X-API-Key': moralis_key,
+        }
         data = requests.get(f'https://api.etherscan.io/api?module=account&action=balance&address={requested_address}&tag=latest&apikey={etherscan_key}')
+        data2 = requests.get(f'https://deep-index.moralis.io/api/v2/{requested_address}/nft?chain=eth&format=decimal', headers=headers)   
+        if str(data2) == "<Response [404]>":
+            return redirect("/address")
         address_json = data.json()
+        nft_json = data2.json()
         if "0" in address_json["status"]:
             return redirect("/address")
-        else:
+        else:                
             address_info = {
                 "address": requested_address,
-                "price": int(address_json["result"]) / 10**18
+                "price": int(address_json["result"]) / 10**18,
+                "count": nft_json["total"],
+                "list": nft_json["result"]
             }
         r.set(requested_address, str(address_info), ex=30)
         return render_template("addressinfo.html",address_info=address_info)
-
-@app.route('/test', methods=['GET','POST'])
-def orderbook():
-    headers = {
-    'accept': 'application/json',
-    'X-API-Key': moralis_key,
-    }
-    response = requests.get('https://deep-index.moralis.io/api/v2/0xF73dbcE07870aE4Eca6c64Fe287D42177875d529/nft?chain=eth&format=decimal', headers=headers)
-    return response.content
 
 if __name__ == '__main__':
       app.run(debug=True)
