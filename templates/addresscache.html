@@ -9,6 +9,8 @@
 {{ render_partial("./addressheader.html") }}
 <p><b>Address:</b> {{ dict_address.address }}</p>
 <p><b>Value:</b> {{ dict_address.price }} ETH</p>
+<p><b>Number of NFT's owned:</b> {{ dict_address.count }}</p>
+<p><b>List of all NFT's:</b> {{ dict_address.list }}</p>
 <p>API info is currently cached, please refresh in ~30s to update.</p>
 
 <form action="/address" method="POST">

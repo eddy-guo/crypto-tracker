@@ -138,7 +138,7 @@ def address_info():
         nft_json = data2.json()
         if "0" in address_json["status"]:
             return redirect("/address")
-        else:                
+        else:
             address_info = {
                 "address": requested_address,
                 "price": int(address_json["result"]) / 10**18,
