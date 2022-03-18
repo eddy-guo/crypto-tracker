@@ -5,13 +5,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
 </head>
 
-<header><b>Blockchain Wallet Balance/NFT Tracker</b></header>
-
 <div>
-<form action="/address/info" method = "POST" autocomplete="off">
-    <input type = "text" name = "address" size="50" /><input class="button" type = "submit" value = "Search" />
-</form>
-
+{{ render_partial("./addressheader.html") }}
 <p><b>Address:</b> {{ address_info.address }}</p>
 <p><b>Value:</b> {{ address_info.price }} ETH</p>
 <p><b>Number of NFT's owned:</b> {{ address_info.count }}</p>
